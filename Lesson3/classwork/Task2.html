@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Task 2</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="wrap" id="wrap">
+      <header>
+        <button id="HouseButton">House</button>
+        <button id="TreeButton">Tree</button>
+        <button id="PlaneButton">Plane</button>
+      </header>
+      <div id="chooseYourBlock">
+
+      </div>
+      <div id="result">
+
+      </div>
+    </div>
+    <script>
+      /*
+        Задание:
+
+        По нажатию на кнопку, в блок с id chooseYourBlock выводить иконку с нажатой кнопки:
+
+        House:  https://image.flaticon.com/icons/svg/149/149064.svg
+        Tree: https://image.flaticon.com/icons/svg/620/620705.svg
+        Plane: https://image.flaticon.com/icons/svg/579/579268.svg
+
+        Под иконкой расположить еще одну кнопку, по нажатию на которую из соответствующего массива
+        подтягивается случайная картинка с изображением в блок result.
+        Предыдущий результат очищается.
+
+        var houseArray = [
+        "https://static.pexels.com/photos/106399/pexels-photo-106399.jpeg",
+        "https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg",
+        "https://i.ytimg.com/vi/Xx6t0gmQ_Tw/maxresdefault.jpg"
+      ];
+        var planeArray = [
+        "http://www.x-plane.com/wp-content/uploads/2014/08/B777-200ER.png",
+        "https://media.cntraveler.com/photos/57067c1e9adc6caf5afe3f4c/master/pass/plane-landing-cr-getty-sb10062851ai-001.jpg",
+        "https://media.wired.com/photos/59323264a31264584499367f/master/w_1024,c_limit/diesel-plane-inline.jpg"
+      ];
+      var treeArray = [
+        "https://static.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg",
+        "https://c1.staticflickr.com/8/7218/7184786016_1ddab461e8_b.jpg",
+        "http://www.atzmut.com/wp-content/uploads/2016/01/tree.jpg"
+      ];
+
+      */
+
+    var url = [
+              'https://image.flaticon.com/icons/svg/149/149064.svg',
+               'https://image.flaticon.com/icons/svg/620/620705.svg',
+              'https://image.flaticon.com/icons/svg/579/579268.svg'
+            ];
+         
+    var houseArray = [
+                        "https://static.pexels.com/photos/106399/pexels-photo-106399.jpeg",
+                        "https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg",
+                        "https://i.ytimg.com/vi/Xx6t0gmQ_Tw/maxresdefault.jpg"
+                        ];
+    var planeArray = [
+                        "http://www.x-plane.com/wp-content/uploads/2014/08/B777-200ER.png",
+                        "https://media.cntraveler.com/photos/57067c1e9adc6caf5afe3f4c/master/pass/plane-landing-cr-getty-sb10062851ai-001.jpg",
+                        "https://media.wired.com/photos/59323264a31264584499367f/master/w_1024,c_limit/diesel-plane-inline.jpg"
+                        ];
+    var treeArray = [
+                        "https://static.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg",
+                        "https://c1.staticflickr.com/8/7218/7184786016_1ddab461e8_b.jpg",
+                        "http://www.atzmut.com/wp-content/uploads/2016/01/tree.jpg"
+                        ];
+    var icon_block = document.getElementById('chooseYourBlock');
+    var img_block = document.getElementById('result');
+    var random_index;
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      document.querySelectorAll('header button').forEach(function(el){
+        el.addEventListener('click', view_icon);
+        });   
+    });   
+
+    function view_icon(event){
+      var id = event.target.id;
+      var icon = document.createElement('img');
+      var random_btn = document.createElement('button');
+      var url, icon_name, icon_type;
+
+      switch (id) {
+               case "HouseButton":
+                  url = 'https://image.flaticon.com/icons/svg/149/149064.svg';
+                  icon_name = 'Random house';
+                  icon_type = 'house';
+                  break;
+               case "TreeButton":
+                  url = 'https://image.flaticon.com/icons/svg/620/620705.svg';
+                  icon_name = 'Random tree';
+                  icon_type = 'tree';
+                  break;
+               case "PlaneButton":
+                  url = 'https://image.flaticon.com/icons/svg/579/579268.svg';
+                  icon_name = 'Random plane';
+                  icon_type = 'plane';
+                  break;
+            }
+      icon.src = url;
+      random_btn.innerText = icon_name;
+      random_btn.id = 'random_img';
+      random_btn.dataset.type = icon_type;
+      random_btn.addEventListener('click', random_img);
+            
+      del_children(icon_block);
+      del_children(img_block);
+
+      icon_block.appendChild(icon);
+      icon_block.appendChild(random_btn);
+      }
+
+      function random_img(){
+            var ramdon_img = document.createElement('img');     
+            random_index = Math.floor(Math.random()*3);
+            var type = document.getElementById('random_img').dataset.type;
+            switch (type) {
+               case "house":
+                  url = houseArray[random_index];
+                  icon_name = 'Random house';
+                  break;
+               case "tree":
+                  url = treeArray[random_index];
+                  icon_name = 'Random tree';
+                  break;
+               case "plane":
+                  url = planeArray[random_index];
+                  icon_name = 'Random planet';
+                  break;
+            }
+            ramdon_img.src = url;
+            del_children(img_block);
+            img_block.appendChild(ramdon_img);
+         }
+
+         function del_children(parent){
+            while (parent.firstChild) {
+               parent.firstChild.remove();
+            }
+         }
+    </script>
+  </body>
+</html>
