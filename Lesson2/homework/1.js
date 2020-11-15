@@ -40,26 +40,21 @@
   */
 var buttonContainer = document.getElementById('buttonContainer');
 var tabContainer = document.getElementById('tabContainer');
+var tabs = tabContainer.querySelectorAll('.tab');
 
-buttonContainer.onclick = function (event) {
-    var button_number = event.target.dataset.tab;
-    show_tab(button_number);
-};
+buttonContainer.querySelectorAll('.showButton').forEach(function (item) {
+    var dataId = item.dataset.tab;
+    item.addEventListener('click', function () {
+        tabs.forEach(function (tab) {
+            // console.log(tab);
+            let tabId = tab.dataset.tab;
+            console.log(tabId);
+            if (tabId == dataId) {
+                tab.classList.add('active');
 
-var show_tab = function (button_number) {
-    var tab_number = tabContainer.querySelector('[data-tab="' + button_number + '"]');
-    tab_number.classList.toggle('active');
-    hideAllTabs()
-};
-
-var hideAllTabs = function () {
-    var tab_active = tabContainer.getElementsByClassName('active');
-
-    if (tab_active.length === 3) {
-        var close_all_tab = tabContainer.querySelectorAll('[data-tab]');
-        close_all_tab.forEach(function (el) {
-            el.classList.remove('active');
+            } else{
+                tab.classList.remove('active');
+            }
         });
-    }
-};
-
+    });
+});
