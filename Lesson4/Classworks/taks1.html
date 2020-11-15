@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Forms Task 1</title>
+  <script>
+    /*
+      Задание:
+        Сделать валидацию формы:
+        1. Логин / Пароль не может быть пустым
+        2. Пароли должны совпадть
+        3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+
+        + бонус - то поле, которое не прошло валидацию подсвечивать красным.
+                - которое прошло - подсвечивать зеленым.
+    */
+
+window.addEventListener("load", function () {
+
+var formValid = document.getElementById('MyValidateForm'); 
+var elementsArray = Array.from(formValid.elements);
+var agree = document.getElementById("agree");
+var submit = document.getElementById('submit');
+
+submit.disabled = true;
+agree.onchange = function () {
+    submit.disabled = !this.checked;
+  
+}
+
+formValid.addEventListener('submit', function (e) {
+
+    e.preventDefault();
+
+    elementsArray.forEach(function (item) {
+
+        if (item.type === 'text' || item.type === 'password') {
+            console.log(item.name, item.value);
+            if (item.value === '') {
+                item.classList.remove('OK');
+                item.classList.add('error');
+            } else {
+                item.classList.remove('error');
+                item.classList.add('OK');
+            }
+        }
+
+    });
+
+    if (
+        (formValid.elements.pas1.value !== '') &&
+        (formValid.elements.pas1.value === formValid.elements.pas2.value)
+    ) {
+        formValid.elements.pas1.classList.remove('error');
+        formValid.elements.pas2.classList.remove('error');
+        formValid.elements.pas1.classList.add('OK');
+        formValid.elements.pas2.classList.add('OK');
+        console.log("Password Match");
+    } else {
+        formValid.elements.pas1.classList.remove('OK');
+        formValid.elements.pas2.classList.remove('OK');
+        formValid.elements.pas1.classList.add('error');
+        formValid.elements.pas2.classList.add('error');
+        if(formValid.elements.pas1.value == '' )
+            console.log("NOT Password Match");
+    }
+
+    console.log(elementsArray)
+});
+
+
+console.log(formValid, elementsArray)
+});
+  </script>
+</head>
+<body>
+  <form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Ваш логин" />
+    <input type="password" name='pas1' placeholder="Ваш пароль" />
+    <input type="password" name='pas2' placeholder="Повторите пароль" />
+    <label for="agree">
+      <span>Вы согласны с лицензионым соглашением.</span>
+      <input type="checkbox" id="agree" />
+    </label>
+    <input type="submit" id="submit" value="Отправить" disabled/>
+  </form>
+
+  <style>
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+    .error{
+        border: 1px solid red;
+    }
+    .OK{
+        border: 1px solid green;
+    }
+  </style>
+</body>
+</html>

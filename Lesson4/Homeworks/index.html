@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="mainForm">
+        <label for="userName">Имя пользователя:</label>
+        <input type="text" minlength="2" id="userName" required name="userName">
+        <br>
+        <label for="userEmail">Email</label>
+        <input type="email" minlength="3" id="userEmail" required name="userEmail">
+        <br>
+        <label for="userPassword">Пароль</label>
+        <input type="password" minlength="8" maxlength=16 id="userPassword" required name="userPassword">
+        <br>
+        <label for="appleCount">Количество сьеденых яблок:</label>
+        <input type="number" minlength="1" id="appleCount" required name="appleCount">
+        <br>
+        <label for="blockThanks">Напиши спасибо за яблоки:</label>
+        <input type="text" id="blockThanks" required name="blockThanks" >
+        <br>
+        <label for="agreeToStudy">Согласен на обучение:</label>
+        <input type="checkbox" id="agreeToStudy" required name="agreeToStudy" >
+        <br>
+        <input type="button" name="submitBtn" id="submitBtn" value="Submit">
+        <input type="button" name="validateBtn" id="validateBtn" value="Validate">
+   </form>
+
+
+<script type="text/javascript" src="./task1.js"></script>   
+</body>
+</html>

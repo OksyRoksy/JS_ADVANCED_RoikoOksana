@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="text" id="textEncrypt">
+        <input type="number" id="shiftEncrypt" style="width: 50px;" value="5">
+        <button id="btnEncrypt">Encrypt</button>
+        <label id="showEncrypt"></label>
+      </div><br>
+      <div>
+        <input type="text" id="textDecrypt">
+        <input type="number" id="shiftDecrypt" style="width: 50px;" value="5">
+        <button id="btnDecrypt">Decrypt</button>
+        <label id="showDecrypt"></label>
+      </div>
+      <script>
+        /*
+        Задание "Шифр цезаря":
+          https://uk.wikipedia.org/wiki/%D0%A8%D0%B8%D1%84%D1%80_%D0%A6%D0%B5%D0%B7%D0%B0%D1%80%D1%8F
+          Написать функцию, которая будет принимать в себя слово и количество
+          симовлов на которые нужно сделать сдвиг внутри.
+          Написать функцию дешефратор которая вернет слово в изначальный вид.
+          Сделать статичные функции используя bind и метод частичного
+          вызова функции (каррирования), которая будет создавать и дешефровать
+          слова с статично забитым шагом от одного до 5.
+          Например:
+            encryptCesar('Word', 3);
+            encryptCesar1(...)
+            ...
+            encryptCesar5(...)
+            decryptCesar1('Sdwq', 3);
+            decryptCesar1(...)
+            ...
+            decryptCesar5(...)
+            "а".charCodeAt(); // 1072
+            String.fromCharCode(189, 43, 190, 61) // ½+¾
+        */
+        var textEn = document.getElementById('textEncrypt'),
+            shiftEn = document.getElementById('shiftEncrypt'),
+            btnEn  = document.getElementById('btnEncrypt'),
+            showEn = document.getElementById('showEncrypt');
+            console.log(textEn, shiftEn, btnEn, showEn);
+        btnEn.onclick = function() {
+          showEn.innerText = encryptCesar(parseInt(shiftEn.value), textEn.value);
+        };
+    
+        var textDe = document.getElementById('textDecrypt'),
+            shiftDe = document.getElementById('shiftDecrypt'),
+            btnDe  = document.getElementById('btnDecrypt'),
+            showDe = document.getElementById('showDecrypt');
+    
+        btnDe.onclick = function() {
+          showDe.innerText = decryptCesar(parseInt(shiftDe.value), textDe.value);
+        };
+    
+        function encryptCesar(shift, word) {
+          var result = '';
+          for (var i = 0; i < word.length; i++) {
+            result += String.fromCharCode(word[i].charCodeAt()+ shift);
+          }
+          return result;
+        }
+        function decryptCesar(shift, word) {
+          var result = '';
+          for (var i = 0; i < word.length; i++) {
+            result += String.fromCharCode(word[i].charCodeAt()- shift);
+          }
+          return result;
+        }
+    
+        var encryptCesar1 = encryptCesar.bind(null, 1),
+            encryptCesar2 = encryptCesar.bind(null, 2),
+            encryptCesar3 = encryptCesar.bind(null, 3),
+            encryptCesar4 = encryptCesar.bind(null, 4),
+            encryptCesar5 = encryptCesar.bind(null, 5);
+    
+        var decryptCesar1 = decryptCesar.bind(null, 1),
+            decryptCesar2 = decryptCesar.bind(null, 2),
+            decryptCesar3 = decryptCesar.bind(null, 3),
+            decryptCesar4 = decryptCesar.bind(null, 4),
+            decryptCesar5 = decryptCesar.bind(null, 5);
+    
+      </script>
+</body>
+</html>
