@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Classwork</title>
+
+
+</head>
+<body>
+<div id="wrap">
+
+</div>
+
+<style>
+      #wrap {
+        display: flex;
+    }
+    ul {
+        font-size: 22px;
+        border: 1px solid black;
+        margin: 5px;
+    }
+
+    li {
+        margin: 5px;
+        font-size: 16px;
+    }
+
+    #divFind {
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid black;
+    }
+
+    input, button {
+        font-size: 18px;
+        box-sizing: border-box;
+        padding: 4px;
+    }
+
+    label {
+        font-size: 22px;
+        display: block;
+        padding: 4px;
+        margin: 4px;
+    }
+
+    #divSELECT {
+        display: table;
+        border: 1px solid black;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
+
+<script>
+
+    /*
+      Задание:
+      1. При помощи методов изложеных ниже, переформатировать ITEA_COURSES в массив который содержит длину строк каждого из элементов.
+      2. Отфильтровать массив ITEA_COURSES по алфавиту.
+          + Бонусный бал. Вывести на страничку списком
+      3. Реализация функции поиска по массиву ITEA_COURSES.
+          + Бонусный бал. Вывести на страничку инпут и кнопку по которой будет срабатывать поиск.
+    */
+
+    const ITEA_COURSES = [
+        "Курс HTML & CSS",
+        "JavaScript базовый курс",
+        "JavaScript продвинутый курс",
+        "JavaScript Professional",
+        "Angular 2.4 (базовый)",
+        "Angular 2.4 (продвинутый)",
+        "React.js",
+        "React Native",
+        "Node.js",
+        "Vue.js"
+    ];
+    var wrap = document.getElementById('wrap');
+
+
+    function listITEA(innerText, list) {
+        var ul = document.createElement('ul');
+        ul.innerText = innerText;
+        wrap.appendChild(ul);
+
+        list.forEach(function (item) {
+          var li = document.createElement('li');
+            li.innerText = item;
+            ul.appendChild(li);
+        });
+    }
+
+    listITEA('ITEA_COURSES', ITEA_COURSES);
+
+    // 1
+    function lengthITEA() {
+        var LENGTH_ITEA_COURSES = [];
+        ITEA_COURSES.forEach(function (item) {
+            LENGTH_ITEA_COURSES.push(item.length)
+        });
+        console.log(LENGTH_ITEA_COURSES);
+        listITEA('LENGTH', LENGTH_ITEA_COURSES);
+    }
+
+    lengthITEA();
+
+    // 2
+    function sortITEA() {
+        var SORT_ITEA_COURSES = [...ITEA_COURSES];
+        SORT_ITEA_COURSES.sort();
+        console.log(SORT_ITEA_COURSES);
+        listITEA('SORT', SORT_ITEA_COURSES);
+    }
+
+    sortITEA();
+
+    // 3
+    function findForm() {
+        var div = document.createElement('div');
+        div.id = 'divFind';
+        wrap.appendChild(div);
+
+        var label = document.createElement('label');
+        label.innerText = 'SEARCH_ELEMENT';
+        div.appendChild(label);
+
+        var input = document.createElement('input');
+        input.id = 'inputFind';
+        div.appendChild(input);
+    }
+
+    findForm();
+
+    var inputFind = document.getElementById('inputFind');
+    var divFind = document.getElementById('divFind');
+    var div = document.createElement('div');
+    div.id = 'searchDiv';
+    divFind.appendChild(div);
+
+    function findITEA() {
+        var searchDiv = document.getElementById('searchDiv');
+        searchDiv.innerText = '';
+        var searchArr = [];
+        var inputFind = document.getElementById('inputFind').value.trim().toLowerCase();
+        if (inputFind.length !== 0) {
+            ITEA_COURSES.forEach(function (item) {
+                for (var i = 0; i < (item.length - inputFind.length + 1); i++) {
+                    var slice = item.slice(i, i + inputFind.length).toLowerCase();
+                    if (slice === inputFind) {
+                        searchArr.push(item);
+                    }
+                }
+            });
+        }
+        searchArr.forEach(function (item) {
+            var li = document.createElement('li');
+            li.innerText = item;
+            searchDiv.appendChild(li);
+        });
+    }
+
+    inputFind.addEventListener('keyup', findITEA);
+
+    /*
+      Задание 2:
+      Написать фильтр массива по:
+      Актеру, продолжительности
+      Бонус:
+        Сделать графическую оболочку для программы:
+        - Селект со списком актеров
+        - Селект или инпут с продолжительностью
+        - Результат в виде списка фильмов
+    */
+
+    var stars = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom', 'Ewan McGregor', 'Liam Neeson', 'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman'];
+    var movies = [
+        {
+            name: "Lord of the Rigs",
+            duration: 240,
+            starring: ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom']
+        },
+        {
+            name: "Star Wars: Episode I - The Phantom Menace",
+            duration: 136,
+            starring: ['Ewan McGregor', 'Liam Neeson', 'Natalie Portman']
+        },
+        {
+            name: "Fargo",
+            duration: 100,
+            starring: ['Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+        },
+        {
+            name: "V for Vendetta",
+            duration: 150,
+            starring: ['Hugo Weaving', 'Natalie Portman', 'Rupert Graves']
+        }
+    ];
+
+    var divSELECT = document.createElement('div');
+    divSELECT.id = 'divSELECT';
+    document.body.appendChild(divSELECT);
+
+    function createSelect(list, id) {
+        var select = document.createElement('select');
+        select.id = id;
+        divSELECT.appendChild(select);
+        select.appendChild(new Option('Selected', '', true, true));
+        list.forEach(function (item) {
+            select.appendChild(new Option(item, item, true, true));
+        });
+        select.selectedIndex = 0;
+    }
+
+    createSelect(stars, '_stars');
+    var i = [];
+    movies.forEach(function (movie) {
+        i.push(movie.duration);
+    });
+    createSelect(i, '_duration');
+
+
+    var select = document.querySelectorAll('select');
+
+    function selectStar(star, duration) {
+        divRESULT.innerHTML = '';
+        var filterArr = [];
+        var starArr = [];
+        var durationArr = [];
+
+        movies.filter(
+            function (movie) {
+                movie.starring.forEach(
+                    function (stars) {
+                        if (stars === star)
+                            starArr.push(movie)
+                    });
+            });
+        movies.filter(
+            function (movie) {
+                if (movie.duration === Number(duration)) {
+                    durationArr.push(movie)
+                }
+            });
+
+        movies.forEach(function (item) {
+            if ((starArr.length > 0) && (durationArr.length > 0)) {
+                if ((durationArr.indexOf(item) !== -1) && (starArr.indexOf(item) !== -1)) {
+                    filterArr.push(item)
+                }
+            } else if (starArr.length > 0) {
+                filterArr = [...starArr]
+            } else if (durationArr.length > 0) {
+                filterArr = [...durationArr]
+            }
+
+        });
+        console.log(filterArr);
+
+        filterArr.forEach(function (item) {
+            var ul = document.createElement('ul');
+            ul.innerHTML = `
+                    <li>Name :${item.name}</li>
+                    <li>Duration :${item.duration}</li>
+                    <li>Starring :${item.starring}</li>`;
+            divRESULT.appendChild(ul);
+        });
+    }
+
+    select.forEach(function (s) {
+        s.addEventListener('change', function () {
+            var stars = document.getElementById('_stars').value;
+            var duration = document.getElementById('_duration').value;
+            selectStar(stars, duration)
+        })
+    });
+
+    var divRESULT = document.createElement('div');
+    divRESULT.id = 'divRESULT';
+    divSELECT.appendChild(divRESULT);
+
+</script>
+
+</body>
+</html>
+
