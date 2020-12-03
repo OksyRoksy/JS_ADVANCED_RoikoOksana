@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+    1. При помощи fetch получить данные:
+     http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2
+    2. Полученый ответ преобразовать в json вызвав метод .json с объекта ответа
+    3. На основе данных посторить табличку
+
+    | index | company | email | phone | address |
+
+    4. создать кнопу которая скрывает показывает address
+     -->
+     <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+        }
+        th {
+            background-color: silver;
+        }
+        tr {
+            background-color: #eeeeee;
+
+        }
+        table, th, td {
+            padding: 10px;
+            border: 2px solid black;
+        }      
+
+    </style>
+
+    <table>
+        <tbody id="table">
+            <tr>
+                <th>index</th>
+                <th>company</th>
+                <th>email</th>
+                <th>phone</th>
+                <th>address</th>
+            </tr>
+        </tbody>
+    </table>
+
+<script>
+    let GetFetch = fetch('http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2')
+    .then(res => res.json())
+    .then(res => res);
+
+    let table = async function () {
+         let res = await GetFetch;
+         res.forEach(function (row) {
+             let context = `
+            <tr>
+                <td>${row.index}</td>
+                <td>${row.company}</td>
+                <td>${row.email}</td>
+                <td>${row.phone}</td>
+                <td>${row.address}</td>
+            </tr>
+            `;
+             document.getElementById('table').innerHTML += context;
+         })
+    };
+    table()
+    
+</script>
+
+</body>
+</html>
