@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task 1</title>
+    <!-- /*
+
+    Задание 1:
+    Написать скрипт, который по клику на кнопку рандомит цвет и записывает его в localStorage
+    После перезагрузки страницы, цвет должен сохранится.
+
+    */ -->
+</head>
+<body>
+    <button id="randomColor">click me!</button>
+    <script>
+        let btnRandomColor = document.getElementById('randomColor');
+
+        function getRandomIntInclusive(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomColor(){
+            return '#' + getRandomIntInclusive(0, 255).toString(16) + getRandomIntInclusive(0, 255).toString(16) + getRandomIntInclusive(0, 255).toString(16);
+        }
+
+        function setBtnColor(color){
+            btnRandomColor.style.backgroundColor = color;
+        }
+
+        //document.addEventListener('DOMContentLoaded', () => {            
+            btnRandomColor.addEventListener('click', (e) => {
+                localStorage.setItem("color", getRandomColor());
+                setBtnColor(localStorage.getItem('color'));              
+            })
+        //})
+
+        setBtnColor(localStorage.getItem('color'));
+
+    </script>
+</body>
+</html>

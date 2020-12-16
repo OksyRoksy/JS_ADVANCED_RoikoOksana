@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task 2</title>
+    <style>
+        .hidden{
+            display: none;
+        }
+    </style>
+    <!-- 
+    /*
+
+        Задание 2:
+        Написать форму логина (логин пароль), которая после отправки данных записывает их в localStorage.
+        Если в localStorage есть записть - На страниче вывести "Привет {username}", если нет - вывести окно
+        логина.
+
+        + бонус, сделать кнопку "выйти" которая удаляет запись из localStorage и снова показывает форму логина
+        + бонус сделать проверку логина и пароля на конкретную запись. Т.е. залогинит пользователя если
+        он введет только admin@example.com и пароль 12345678
+
+
+    */
+     -->
+</head>
+<body>
+    <form id="auth" class="show">
+        <input type="text" name="userName" required>
+        <input type="password" name="userPassword" required>
+        <input type="submit" value="login">
+    </form>
+    <button id="btnLogout">Log Out</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let authForm = document.getElementById('auth');
+            let btnLogout = document.getElementById('btnLogout');
+
+            btnLogout.addEventListener('click', () => {
+                localStorage.clear();
+            })
+
+            if (localStorage.getItem('userName')) {
+                authForm.classList.add('hidden');
+                alert(`Hello ${localStorage.getItem('userName')}`);
+                return;
+            } else {
+                authForm.classList.remove('hidden') 
+            }            
+
+            authForm.addEventListener('submit', (e) => {
+                e.preventDefault();                
+
+                const userName = authForm.userName.value;
+                const userPassword = authForm.userPassword.value;
+
+                if (userName !== 'admin@example.com' || userPassword !== '12345678') {
+                    alert('please enter correct credentials');
+                    return;
+                }
+
+                localStorage.setItem("userName", authForm.userName.value);
+                localStorage.setItem("userPassword", authForm.userPassword.value);
+            })
+        });
+    </script>    
+</body>
+</html>
