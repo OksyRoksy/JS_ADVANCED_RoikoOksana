@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 1</title>
+</head>
+<body>
+<style>
+    body {
+        background: #dbdbdb;
+        opacity: 1;
+    }
+
+    body.hidden {
+        overflow: hidden;
+    }
+
+    img {
+        cursor: pointer;
+    }
+
+    .imgGal {
+        width: 400px;
+        height: 300px;
+        padding: 23px;
+    }
+
+    .block {
+        display: flex;
+        overflow: hidden;
+    }
+
+    .gallery {
+        border: 1px solid black;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    button {
+        background-color: #a3a3a3;
+        font-size: 20px;
+        color: black;
+        margin: 0 10px;
+        border: none;
+        padding: 0 10px;
+        cursor: pointer;
+        display: block;
+    }
+
+    #TOYOTA, #BMW, #MERCEDES {
+        display: flex;
+        background-color: white;
+    }
+
+    ._img {
+        overflow: hidden;
+        transition: margin 750ms ease 0s;
+        margin-left: 0;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    #fullScreen {
+        background-color: rgba(0, 0, 0, 0.7);
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    #fullImg {
+        margin: 3% auto;
+        width: fit-content;
+        background-color: white;
+        padding: 40px;
+        display: -webkit-box;
+        height: 700px;
+    }
+
+    #Img {
+        width: 1000px;
+        height: 700px;
+    }
+
+    #close {
+        border: 1px solid black;
+        padding: 5px 8px;
+        background-color: silver;
+        cursor: pointer;
+        position: absolute;
+        transform: translateX(1110px) translateY(-35px);
+    }
+
+    #close:hover {
+        background-color: red;
+        color: white;
+    }
+
+</style>
+
+<div id="fullScreen">
+    <div id="fullImg">
+        <span id="close">X</span>
+        <button><</button>
+        <img id="Img" src="" data-id=>
+        <button>></button>
+    </div>
+</div>
+
+<div id="_gal">
+    <h1>TOYOTA</h1>
+    <div class="block">
+        <button><</button>
+        <div class="gallery">
+            <div class="_img" id="TOYOTA" data-click="0">
+
+            </div>
+        </div>
+        <button>></button>
+    </div>
+
+    <h1>BMW</h1>
+    <div class="block">
+        <button><</button>
+        <div class="gallery">
+            <div class="_img" id="BMW" data-click="0">
+
+            </div>
+        </div>
+        <button>></button>
+    </div>
+
+    <h1>MERCEDES</h1>
+    <div class="block">
+        <button><</button>
+        <div class="gallery">
+            <div class="_img" id="MERCEDES" data-click="0">
+
+            </div>
+        </div>
+        <button>></button>
+    </div>
+</div>
+
+<script>
+    let TOYOTA = ['img/TOYOTA/10.jpg', 'img/TOYOTA/11.jpg', 'img/TOYOTA/12.jpg', 'img/TOYOTA/13.jpg', 'img/TOYOTA/14.jpg', 'img/TOYOTA/15.jpg', 'img/TOYOTA/16.jpg'];
+    let BMW = ['img/BMW/20.jpg', 'img/BMW/21.jpg', 'img/BMW/22.jpg', 'img/BMW/23.jpg', 'img/BMW/24.jpg', 'img/BMW/25.jpg', 'img/BMW/26.jpg'];
+    let MERCEDES = ['img/MERCEDES/30.jpg', 'img/MERCEDES/31.jpg', 'img/MERCEDES/32.jpg', 'img/MERCEDES/33.jpg', 'img/MERCEDES/34.jpg', 'img/MERCEDES/35.jpg', 'img/MERCEDES/36.jpg'];
+
+    function addGal(arr, name) {
+        let galName = document.getElementById(name);
+        let n = 0;
+        arr.forEach(function (img) {
+
+            let context = `
+                <div>
+                    <img class="imgGal" src="${img}" alt="" data-id="${n}">
+                </div>
+            `;
+            galName.innerHTML += context;
+            n++
+        })
+    }
+
+    addGal(TOYOTA, 'TOYOTA');
+    addGal(BMW, 'BMW');
+    addGal(MERCEDES, 'MERCEDES');
+
+    document.getElementById('_gal').querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            let div = event.target.parentElement.children[1].children[0];
+            let next = -25;
+            if (event.target.innerText === '<') {
+                if (div.dataset.click !== '0') {
+                    div.dataset.click--;
+                    div.style.marginLeft = `${next * div.dataset.click}%`;
+                } else {
+                    div.style.marginLeft = `10%`;
+                    setTimeout(() => div.style.marginLeft = `0%`, 200)
+                }
+
+            } else if (event.target.innerText === '>') {
+                if (div.dataset.click !== '6') {
+                    div.dataset.click++;
+                    div.style.marginLeft = `${next * div.dataset.click}%`;
+                } else {
+                    div.style.marginLeft = `-160%`;
+                    setTimeout(() => div.style.marginLeft = `-150%`, 200)
+                }
+            }
+        })
+    });
+
+    function setImg(id) {
+        let arr = document.querySelectorAll(`#${document.getElementById('Img').dataset.arrName}`)[0].children;
+        document.getElementById('Img').src = arr[id].children[0].src;
+        document.getElementById('Img').dataset.id = id;
+    }
+
+    document.querySelectorAll('.imgGal').forEach((img) => {
+        img.addEventListener('click', (event) => {
+            document.body.classList.add('hidden');
+            document.getElementById('fullScreen').style.display = 'block';
+            document.getElementById('Img').dataset.arrName = event.target.parentElement.parentElement.id;
+            setImg(Number(event.target.dataset.id));
+
+        })
+    });
+
+    document.getElementById('fullImg').querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            let imgId = Number(document.getElementById('Img').dataset.id);
+            if (event.target.innerText === '<') {
+                if (imgId !== 0) {
+                    imgId--;
+                    setImg(imgId);
+                } else {
+                    setImg(9);
+                }
+            } else if (event.target.innerText === '>') {
+                if (imgId !== 9) {
+                    imgId++;
+                    setImg(imgId);
+                } else {
+                    setImg(0);
+                }
+            }
+        });
+    });
+
+    function close() {
+        document.body.classList.remove('hidden');
+        document.getElementById('fullScreen').style.display = 'none';
+    }
+
+    document.getElementById('fullScreen').addEventListener('click', (event) => {
+        if (event.target.id === 'fullScreen') {
+            close()
+        }
+    });
+
+    document.getElementById('close').addEventListener('click', () => {
+        close()
+    });
+
+</script>
+</body>
+</html>
